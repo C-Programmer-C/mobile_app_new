@@ -233,12 +233,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     child: product['image_url'] != null && product['image_url'].toString().isNotEmpty
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              product['image_url'].toString(),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Icon(Icons.photo, color: Colors.grey);
-                              },
+                            child: ColoredBox(
+                              color: Colors.white,
+                              child: Image.asset(
+                                product['image_url'].toString(),
+                                fit: BoxFit.contain,
+                                alignment: Alignment.center,
+                                filterQuality: FilterQuality.medium,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(Icons.photo, color: Colors.grey);
+                                },
+                              ),
                             ),
                           )
                         : Icon(Icons.photo, color: Colors.grey),

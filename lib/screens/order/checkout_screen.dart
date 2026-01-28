@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile_app/providers/cart_provider.dart';
 import 'package:mobile_app/providers/auth_provider.dart';
 import 'package:mobile_app/database/database_helper.dart';
+import 'package:mobile_app/utils/user_friendly_error.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -53,8 +54,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 keyboardType: TextInputType.phone,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  final v = value?.trim() ?? '';
+                  if (v.isEmpty) {
                     return 'Введите телефон';
+                  }
+                  final digits = v.replaceAll(RegExp(r'\D'), '');
+                  if (digits.length < 10) {
+                    return 'Введите корректный номер телефона';
                   }
                   return null;
                 },
@@ -70,8 +76,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 maxLines: 3,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  final v = value?.trim() ?? '';
+                  if (v.isEmpty) {
                     return 'Введите адрес доставки';
+                  }
+                  if (v.length < 8) {
+                    return 'Адрес слишком короткий';
                   }
                   return null;
                 },
@@ -154,6 +164,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 child: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+                      if (cartProvider.cartItems.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Корзина пуста'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
                       final orderId = await _createOrder(total);
                       
                       if (orderId != null && mounted) {
@@ -210,7 +230,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
       final userId = authProvider.currentUser?.id;
       
-      if (userId == null) return null;
+      if (userId == null) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Войдите в аккаунт, чтобы оформить заказ'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        return null;
+      }
 
       final db = await DatabaseHelper().database;
       
@@ -231,17 +261,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         });
       }
 
-      for (var item in cartProvider.cartItems) {
-        await cartProvider.removeFromCart(item);
-      }
+      await cartProvider.clearAllCartItems();
       
       return orderId;
     } catch (e) {
-      print('Ошибка создания заказа: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Ошибка создания заказа: $e'),
+            content: Text(userFriendlyErrorMessage(e)),
             backgroundColor: Colors.red,
           ),
         );

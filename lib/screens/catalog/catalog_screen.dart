@@ -130,16 +130,21 @@ Widget _buildProductImage(String? imageUrl) {
     return Icon(Icons.photo, size: 50, color: Colors.grey);
   }
   
-  return Image.asset(
-    imageUrl,
-    fit: BoxFit.cover,
-    width: double.infinity,
-    errorBuilder: (context, error, stackTrace) {
-      return Container(
-        color: Colors.grey[200],
-        child: Icon(Icons.photo, size: 50, color: Colors.grey),
-      );
-    },
+  return ColoredBox(
+    color: Colors.white,
+    child: Image.asset(
+      imageUrl,
+      fit: BoxFit.contain,
+      width: double.infinity,
+      alignment: Alignment.center,
+      filterQuality: FilterQuality.medium,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          color: Colors.grey[200],
+          child: Icon(Icons.photo, size: 50, color: Colors.grey),
+        );
+      },
+    ),
   );
 }
 
@@ -173,21 +178,26 @@ class ProductCard extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                  color: Colors.grey[900],
+                  color: Colors.white,
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
                   child: product.imageUrl != null && product.imageUrl!.isNotEmpty
-                      ? Image.asset(
-                          product.imageUrl!,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: Colors.grey[200],
-                              child: Icon(Icons.photo, size: 50, color: Colors.grey),
-                            );
-                          },
+                      ? ColoredBox(
+                          color: Colors.white,
+                          child: Image.asset(
+                            product.imageUrl!,
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            filterQuality: FilterQuality.medium,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey[200],
+                                child: Icon(Icons.photo, size: 50, color: Colors.grey),
+                              );
+                            },
+                          ),
                         )
                       : Icon(Icons.photo, size: 50, color: Colors.grey),
                 ),

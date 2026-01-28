@@ -570,12 +570,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                               child: similarProduct.imageUrl != null && similarProduct.imageUrl!.isNotEmpty
                                                   ? ClipRRect(
                                                       borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                                                      child: Image.asset(
-                                                        similarProduct.imageUrl!,
-                                                        fit: BoxFit.cover,
-                                                        errorBuilder: (context, error, stackTrace) {
-                                                          return Icon(Icons.photo, color: Colors.grey);
-                                                        },
+                                                      child: ColoredBox(
+                                                        color: Colors.white,
+                                                        child: Image.asset(
+                                                          similarProduct.imageUrl!,
+                                                          fit: BoxFit.contain,
+                                                          alignment: Alignment.center,
+                                                          filterQuality: FilterQuality.medium,
+                                                          errorBuilder: (context, error, stackTrace) {
+                                                            return Icon(Icons.photo, color: Colors.grey);
+                                                          },
+                                                        ),
                                                       ),
                                                     )
                                                   : Icon(Icons.photo, color: Colors.grey),

@@ -19,6 +19,7 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
+      // ignore: avoid_print
       print('Ошибка регистрации: $e');
       return false;
     }

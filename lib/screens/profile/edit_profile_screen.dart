@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:mobile_app/providers/auth_provider.dart';
 import 'package:mobile_app/models/user.dart';
 import 'package:mobile_app/database/database_helper.dart';
+import 'package:mobile_app/utils/user_friendly_error.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -98,7 +99,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Ошибка обновления профиля: $e'),
+              content: Text(userFriendlyErrorMessage(e)),
               backgroundColor: Colors.red,
             ),
           );

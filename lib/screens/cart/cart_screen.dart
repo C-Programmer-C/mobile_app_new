@@ -102,12 +102,17 @@ class _CartScreenState extends State<CartScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: item.product?.imageUrl != null && item.product!.imageUrl!.isNotEmpty
-                        ? Image.asset(
-                            item.product!.imageUrl!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(Icons.photo, color: Colors.grey);
-                            },
+                        ? ColoredBox(
+                            color: Colors.white,
+                            child: Image.asset(
+                              item.product!.imageUrl!,
+                              fit: BoxFit.contain,
+                              alignment: Alignment.center,
+                              filterQuality: FilterQuality.medium,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(Icons.photo, color: Colors.grey);
+                              },
+                            ),
                           )
                         : Icon(Icons.photo, color: Colors.grey),
                   ),
