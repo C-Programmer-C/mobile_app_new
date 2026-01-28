@@ -13,8 +13,16 @@ class AuthProvider with ChangeNotifier {
   Future<bool> register(User user) async {
     try {
       final db = await DatabaseHelper().database;
-      await db.insert('users', user.toMap());
-      _currentUser = user;
+      final newId = await db.insert('users', user.toMap());
+      _currentUser = User(
+        id: newId,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        fullName: user.fullName,
+        phone: user.phone,
+        address: user.address,
+      );
       _isAuthenticated = true;
       notifyListeners();
       return true;

@@ -18,8 +18,9 @@ class _CartScreenState extends State<CartScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final cartProvider = Provider.of<CartProvider>(context, listen: false);
-      if (authProvider.currentUser != null) {
-        cartProvider.loadCartItems(authProvider.currentUser!.id!);
+      final id = authProvider.currentUser?.id;
+      if (id != null) {
+        cartProvider.loadCartItems(id);
       }
     });
   }

@@ -13,8 +13,11 @@ class CartProvider with ChangeNotifier {
 
   void setAuthProvider(AuthProvider authProvider) {
     _authProvider = authProvider;
-    if (_authProvider?.currentUser != null) {
-      loadCartItems(_authProvider!.currentUser!.id!);
+    final id = _authProvider?.currentUser?.id;
+    if (id != null) {
+      loadCartItems(id);
+    } else {
+      clearCart();
     }
   }
 

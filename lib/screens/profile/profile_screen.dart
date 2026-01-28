@@ -207,8 +207,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
       return Scaffold(
         appBar: AppBar(
           title: Text('Мои заказы'),
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
         ),
         body: Center(child: CircularProgressIndicator(color: Colors.red)),
       );
@@ -218,8 +216,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
       return Scaffold(
         appBar: AppBar(
           title: Text('Мои заказы'),
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
         ),
         body: Center(
           child: Column(
