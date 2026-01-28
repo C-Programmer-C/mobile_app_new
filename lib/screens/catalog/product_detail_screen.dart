@@ -11,7 +11,7 @@ import 'package:mobile_app/screens/order/checkout_screen.dart';
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
 
-  ProductDetailScreen({required this.product});
+  const ProductDetailScreen({super.key, required this.product});
 
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -236,7 +236,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ],
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: Colors.red))
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,7 +306,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             Expanded(
                               child: Text(
                                 product.name,
-                                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                             if (product.isPopular)
@@ -329,8 +333,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             Icon(Icons.star, color: Colors.amber, size: 20),
                             SizedBox(width: 4),
                             Text(
-                              '${product.rating.toStringAsFixed(1)}',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              product.rating.toStringAsFixed(1),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
                             SizedBox(width: 8),
                             Text(
@@ -373,19 +381,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         SizedBox(height: 16),
                         Text(
                           'Описание',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                         SizedBox(height: 8),
                         Text(
                           product.description,
-                          style: TextStyle(fontSize: 16, height: 1.5),
+                          style: TextStyle(fontSize: 16, height: 1.5, color: Colors.black87),
                         ),
 
                         // Характеристики
                         SizedBox(height: 24),
                         Text(
                           'Характеристики',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                         SizedBox(height: 12),
                         Container(
@@ -421,6 +437,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.red.withOpacity(0.3)),
                                 borderRadius: BorderRadius.circular(12),
+                                color: Colors.grey[50],
                               ),
                               child: Row(
                                 children: [
@@ -436,12 +453,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         ),
                                         Text(
                                           _supplier!.name,
-                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  Icon(Icons.chevron_right, color: Colors.grey),
+                                  Icon(Icons.chevron_right),
                                 ],
                               ),
                             ),
@@ -455,12 +476,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           children: [
                             Text(
                               'Отзывы (${_reviews.length})',
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
                             TextButton.icon(
                               onPressed: _addReview,
-                              icon: Icon(Icons.edit, size: 18),
-                              label: Text('Оставить отзыв'),
+                              icon: Icon(Icons.edit, size: 18, color: Colors.red),
+                              label: Text(
+                                'Оставить отзыв',
+                                style: TextStyle(color: Colors.red),
+                              ),
                             ),
                           ],
                         ),
@@ -480,6 +508,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   SizedBox(height: 8),
                                   ElevatedButton(
                                     onPressed: _addReview,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                    ),
                                     child: Text('Оставить первый отзыв'),
                                   ),
                                 ],
@@ -494,7 +526,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           SizedBox(height: 32),
                           Text(
                             'Похожие товары',
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                           SizedBox(height: 12),
                           SizedBox(
@@ -552,7 +588,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                               children: [
                                                 Text(
                                                   similarProduct.name,
-                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                  ),
                                                   maxLines: 2,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
@@ -563,7 +603,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                                     SizedBox(width: 2),
                                                     Text(
                                                       similarProduct.rating.toStringAsFixed(1),
-                                                      style: TextStyle(fontSize: 12),
+                                                      style: TextStyle(fontSize: 12, color: Colors.black87),
                                                     ),
                                                   ],
                                                 ),
@@ -629,7 +669,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: Colors.orange,
+                    backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                   ),
                   child: Text('Купить сейчас'),
@@ -652,13 +692,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             width: 120,
             child: Text(
               '$label:',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[700]),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[700],
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: 14, color: Colors.black87),
             ),
           ),
         ],
@@ -677,8 +720,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Row(
               children: [
                 CircleAvatar(
-                  child: Text(review.userName[0].toUpperCase()),
                   backgroundColor: Colors.red[100],
+                  child: Text(review.userName[0].toUpperCase()),
                 ),
                 SizedBox(width: 12),
                 Expanded(

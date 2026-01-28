@@ -6,7 +6,7 @@ import 'package:mobile_app/database/database_helper.dart';
 import 'package:mobile_app/providers/auth_provider.dart';
 
 class CartProvider with ChangeNotifier {
-  List<CartItem> _cartItems = [];
+  final List<CartItem> _cartItems = [];
   AuthProvider? _authProvider;
 
   List<CartItem> get cartItems => _cartItems;

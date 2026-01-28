@@ -5,6 +5,8 @@ import 'package:mobile_app/providers/auth_provider.dart';
 import 'package:mobile_app/database/database_helper.dart';
 
 class CheckoutScreen extends StatefulWidget {
+  const CheckoutScreen({super.key});
+
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
 }
@@ -13,21 +15,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _formKey = GlobalKey<FormState>();
   final _addressController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _promoCodeController = TextEditingController();
   String _paymentMethod = 'card';
-  double _discount = 0.0;
 
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
-    final subtotal = cartProvider.cartItems.fold(0.0, (sum, item) {
+    final total = cartProvider.cartItems.fold(0.0, (sum, item) {
       return sum + (item.product!.price * item.quantity);
     });
-    final discountAmount = subtotal * _discount;
-    final total = subtotal - discountAmount;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Оформление заказа')),
+      appBar: AppBar(
+        title: Text('Оформление заказа'),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Form(
@@ -37,11 +37,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               Text(
                 'Контактная информация',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(height: 16),
               TextFormField(
                 controller: _phoneController,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   labelText: 'Телефон',
                   border: OutlineInputBorder(),
@@ -58,6 +62,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               SizedBox(height: 16),
               TextFormField(
                 controller: _addressController,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   labelText: 'Адрес доставки',
                   border: OutlineInputBorder(),
@@ -73,59 +78,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
               SizedBox(height: 24),
               Text(
-                'Промокод',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _promoCodeController,
-                      decoration: InputDecoration(
-                        labelText: 'Введите промокод',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.local_offer),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {
-                      final code = _promoCodeController.text.trim().toUpperCase();
-                      if (code.isNotEmpty) {
-                        setState(() {
-                          _discount = 0.0;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Промокод "${code}" не найден. Функция будет доступна в будущем.'),
-                          ),
-                        );
-                      }
-                    },
-                    child: Text('Применить'),
-                  ),
-                ],
-              ),
-              if (_discount > 0)
-                Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: Text(
-                    'Скидка: ${(_discount * 100).toStringAsFixed(0)}%',
-                    style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              SizedBox(height: 24),
-              Text(
                 'Способ оплаты',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(height: 16),
               RadioListTile(
                 title: Text('Банковская карта'),
                 value: 'card',
                 groupValue: _paymentMethod,
+                activeColor: Colors.red,
                 onChanged: (value) {
                   setState(() {
                     _paymentMethod = value.toString();
@@ -136,6 +100,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 title: Text('Наличные при получении'),
                 value: 'cash',
                 groupValue: _paymentMethod,
+                activeColor: Colors.red,
                 onChanged: (value) {
                   setState(() {
                     _paymentMethod = value.toString();
@@ -151,26 +116,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Товары:', style: TextStyle(fontSize: 16)),
-                        Text('${subtotal.toStringAsFixed(0)} ₽'),
-                      ],
-                    ),
-                    if (_discount > 0) ...[
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Скидка:', style: TextStyle(fontSize: 16, color: Colors.green)),
-                          Text(
-                            '-${discountAmount.toStringAsFixed(0)} ₽',
-                            style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ],
                     SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,7 +140,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            color: Colors.red,
                           ),
                         ),
                       ],
@@ -243,7 +188,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
                   ),
                   child: Text(
                     'Подтвердить заказ',
@@ -308,7 +254,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void dispose() {
     _addressController.dispose();
     _phoneController.dispose();
-    _promoCodeController.dispose();
     super.dispose();
   }
 }

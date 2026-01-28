@@ -6,6 +6,8 @@ import 'package:mobile_app/screens/catalog/product_detail_screen.dart';
 import 'package:mobile_app/providers/cart_provider.dart';
 
 class CatalogScreen extends StatefulWidget {
+  const CatalogScreen({super.key});
+
   @override
   _CatalogScreenState createState() => _CatalogScreenState();
 }
@@ -88,10 +90,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       _loadProducts();
                     });
                   },
-                  selectedColor: Colors.blue[100],
-                  checkmarkColor: Colors.blue,
+                  selectedColor: Colors.red,
+                  checkmarkColor: Colors.white,
+                  backgroundColor: Colors.grey[200],
                   labelStyle: TextStyle(
-                    color: isSelected ? Colors.blue : Colors.black87,
+                    color: isSelected ? Colors.white : Colors.black87,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
@@ -143,7 +146,7 @@ Widget _buildProductImage(String? imageUrl) {
 class ProductCard extends StatelessWidget {
   final Product product;
 
-  ProductCard({required this.product});
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +173,7 @@ class ProductCard extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                  color: Colors.grey[100],
+                  color: Colors.grey[900],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
@@ -198,7 +201,11 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -209,7 +216,7 @@ class ProductCard extends StatelessWidget {
                       SizedBox(width: 2),
                       Text(
                         product.rating.toString(),
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 12, color: Colors.black87),
                       ),
                     ],
                   ),

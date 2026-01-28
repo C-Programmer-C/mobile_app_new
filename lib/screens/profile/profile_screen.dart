@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobile_app/providers/auth_provider.dart';
 import 'package:mobile_app/screens/profile/edit_profile_screen.dart';
-import 'package:mobile_app/screens/settings/settings_screen.dart';
 import 'package:mobile_app/database/database_helper.dart';
 import 'package:mobile_app/screens/order/order_detail_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
@@ -19,11 +20,7 @@ class ProfileScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.fromLTRB(16, 40, 16, 16),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.red[400]!, Colors.red[600]!],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: Colors.red,
             ),
             child: Row(
               children: [
@@ -48,7 +45,10 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 4),
                       Text(
                         user?.email ?? '',
-                        style: TextStyle(color: Colors.white70),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
                     ],
                   ),
@@ -81,70 +81,6 @@ class ProfileScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => EditProfileScreen(),
-                      ),
-                    );
-                  },
-                ),
-                _buildMenuItem(
-                  context,
-                  icon: Icons.settings,
-                  title: 'Настройки',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SettingsScreen(),
-                      ),
-                    );
-                  },
-                ),
-                _buildMenuItem(
-                  context,
-                  icon: Icons.support_agent,
-                  title: 'Поддержка',
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Row(
-                          children: [
-                            Icon(Icons.support_agent, color: Colors.red),
-                            SizedBox(width: 8),
-                            Text('Поддержка'),
-                          ],
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Свяжитесь с нами:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 16),
-                            Row(
-                              children: [
-                                Icon(Icons.phone, color: Colors.red),
-                                SizedBox(width: 8),
-                                Text(
-                                  '+7 (800) 555-35-35',
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Работаем круглосуточно',
-                              style: TextStyle(color: Colors.grey, fontSize: 12),
-                            ),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Закрыть'),
-                          ),
-                        ],
                       ),
                     );
                   },
@@ -182,7 +118,7 @@ class ProfileScreen extends StatelessWidget {
         title,
         style: TextStyle(color: textColor),
       ),
-      trailing: Icon(Icons.chevron_right, color: Colors.grey),
+      trailing: Icon(Icons.chevron_right),
       onTap: onTap,
       contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
     );
@@ -190,6 +126,8 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class OrdersScreen extends StatefulWidget {
+  const OrdersScreen({super.key});
+
   @override
   _OrdersScreenState createState() => _OrdersScreenState();
 }
@@ -267,14 +205,22 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text('Мои заказы')),
-        body: Center(child: CircularProgressIndicator()),
+        appBar: AppBar(
+          title: Text('Мои заказы'),
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+        ),
+        body: Center(child: CircularProgressIndicator(color: Colors.red)),
       );
     }
 
     if (_orders.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Мои заказы')),
+        appBar: AppBar(
+          title: Text('Мои заказы'),
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -292,7 +238,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Мои заказы')),
+      appBar: AppBar(
+        title: Text('Мои заказы'),
+      ),
       body: RefreshIndicator(
         onRefresh: _loadOrders,
         child: ListView.builder(
@@ -343,7 +291,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Colors.red,
                       ),
                     ),
                     if (order['order_date'] != null)

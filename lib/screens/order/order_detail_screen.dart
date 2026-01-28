@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/database/database_helper.dart';
-import 'package:mobile_app/models/product.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final int orderId;
 
-  OrderDetailScreen({required this.orderId});
+  const OrderDetailScreen({super.key, required this.orderId});
 
   @override
   _OrderDetailScreenState createState() => _OrderDetailScreenState();
@@ -13,7 +12,7 @@ class OrderDetailScreen extends StatefulWidget {
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Map<String, dynamic>? _order;
-  List<Map<String, dynamic>> _orderItems = [];
+  final List<Map<String, dynamic>> _orderItems = [];
   bool _isLoading = true;
 
   @override
@@ -137,14 +136,18 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text('Детали заказа')),
-        body: Center(child: CircularProgressIndicator()),
+        appBar: AppBar(
+          title: Text('Детали заказа'),
+        ),
+        body: Center(child: CircularProgressIndicator(color: Colors.red)),
       );
     }
 
     if (_order == null) {
       return Scaffold(
-        appBar: AppBar(title: Text('Детали заказа')),
+        appBar: AppBar(
+          title: Text('Детали заказа'),
+        ),
         body: Center(child: Text('Заказ не найден')),
       );
     }
@@ -244,14 +247,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   subtitle: Text('Количество: $quantity'),
                   trailing: Text(
                     '${(price * quantity).toStringAsFixed(0)} ₽',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
                   ),
                 ),
               );
             }),
             SizedBox(height: 16),
             Card(
-              color: Colors.blue[50],
+              color: Colors.grey[50],
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Row(
@@ -266,7 +269,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Colors.red,
                       ),
                     ),
                   ],
@@ -288,7 +291,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           SizedBox(
             width: 120,
             child: Text(
-              label + ':',
+              '$label:',
               style: TextStyle(color: Colors.grey[600]),
             ),
           ),

@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:mobile_app/providers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -12,10 +14,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -25,18 +29,20 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.shopping_bag, size: 80, color: Colors.grey[700]),
+                  Icon(Icons.shopping_bag, size: 80, color: Colors.red),
                   SizedBox(height: 32),
                   Text(
                     'Магазин электроники',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                   SizedBox(height: 48),
                   TextFormField(
                     controller: _emailController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                       labelText: 'Email',
                       border: OutlineInputBorder(),
@@ -56,12 +62,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                       labelText: 'Пароль',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
                     ),
-                    obscureText: true,
+                    obscureText: _obscurePassword,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Введите пароль';
@@ -79,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: _isLoading ? null : _login,
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 16),
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                       ),
                       child: _isLoading
@@ -92,7 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/register');
                     },
-                    child: Text('Нет аккаунта? Зарегистрироваться'),
+                    child: Text(
+                      'Нет аккаунта? Зарегистрироваться',
+                      style: TextStyle(color: Colors.red),
+                    ),
                   ),
                 ],
               ),

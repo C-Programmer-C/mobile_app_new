@@ -5,6 +5,8 @@ import 'package:mobile_app/models/user.dart';
 import 'package:mobile_app/database/database_helper.dart';
 
 class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
+
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
@@ -121,7 +123,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             onPressed: _isLoading ? null : _saveProfile,
             child: Text(
               'Сохранить',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.red),
             ),
           ),
         ],
@@ -134,6 +136,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             children: [
               TextFormField(
                 controller: _usernameController,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   labelText: 'Имя пользователя',
                   border: OutlineInputBorder(),
@@ -149,6 +152,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(height: 16),
               TextFormField(
                 controller: _emailController,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
@@ -168,6 +172,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(height: 16),
               TextFormField(
                 controller: _fullNameController,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   labelText: 'Полное имя',
                   border: OutlineInputBorder(),
@@ -177,6 +182,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(height: 16),
               TextFormField(
                 controller: _phoneController,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   labelText: 'Телефон',
                   border: OutlineInputBorder(),
@@ -187,6 +193,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(height: 16),
               TextFormField(
                 controller: _addressController,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   labelText: 'Адрес',
                   border: OutlineInputBorder(),
@@ -201,9 +208,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   onPressed: _isLoading ? null : _saveProfile,
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
                   ),
                   child: _isLoading
-                      ? CircularProgressIndicator()
+                      ? CircularProgressIndicator(color: Colors.white)
                       : Text('Сохранить изменения'),
                 ),
               ),

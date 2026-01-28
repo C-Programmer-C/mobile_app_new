@@ -4,6 +4,8 @@ import 'package:mobile_app/providers/auth_provider.dart';
 import 'package:mobile_app/models/user.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -17,11 +19,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _fullNameController = TextEditingController();
   final _phoneController = TextEditingController();
   bool _isLoading = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Регистрация')),
+      appBar: AppBar(
+        title: Text('Регистрация'),
+      ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24),
@@ -31,6 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 TextFormField(
                   controller: _usernameController,
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     labelText: 'Имя пользователя',
                     border: OutlineInputBorder(),
@@ -46,6 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: 16),
                 TextFormField(
                   controller: _emailController,
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(),
@@ -65,12 +74,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: 16),
                 TextFormField(
                   controller: _passwordController,
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     labelText: 'Пароль',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
                   ),
-                  obscureText: true,
+                  obscureText: _obscurePassword,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Введите пароль';
@@ -84,12 +104,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: 16),
                 TextFormField(
                   controller: _confirmPasswordController,
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     labelText: 'Подтвердите пароль',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureConfirmPassword = !_obscureConfirmPassword;
+                        });
+                      },
+                    ),
                   ),
-                  obscureText: true,
+                  obscureText: _obscureConfirmPassword,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Подтвердите пароль';
@@ -103,6 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: 16),
                 TextFormField(
                   controller: _fullNameController,
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     labelText: 'Полное имя (необязательно)',
                     border: OutlineInputBorder(),
@@ -112,6 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: 16),
                 TextFormField(
                   controller: _phoneController,
+                  style: TextStyle(color: Colors.black),
                   decoration: InputDecoration(
                     labelText: 'Телефон (необязательно)',
                     border: OutlineInputBorder(),
@@ -126,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: _isLoading ? null : _register,
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
                     ),
                     child: _isLoading
@@ -139,7 +172,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('Уже есть аккаунт? Войти'),
+                  child: Text(
+                    'Уже есть аккаунт? Войти',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
               ],
             ),

@@ -5,6 +5,8 @@ import 'package:mobile_app/providers/auth_provider.dart';
 import 'package:mobile_app/screens/order/checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
+  const CartScreen({super.key});
+
   @override
   _CartScreenState createState() => _CartScreenState();
 }
@@ -161,7 +163,10 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Text(
                     'Итого:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     '${total.toStringAsFixed(0)} ₽',
@@ -185,6 +190,8 @@ class _CartScreenState extends State<CartScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
                   ),
                   child: Text('Оформить заказ'),
                 ),

@@ -67,6 +67,8 @@ class _SplashWrapperState extends State<_SplashWrapper> {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -90,26 +92,50 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.red,
             primary: Colors.red,
           ),
+          scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
-            elevation: 1,
-            iconTheme: IconThemeData(color: Colors.red),
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black),
+          ),
+          cardTheme: CardThemeData(
+            color: Colors.white,
+            elevation: 2,
           ),
           inputDecorationTheme: InputDecorationTheme(
+            filled: true,
+            fillColor: Colors.grey[100],
+            labelStyle: TextStyle(color: Colors.grey[700]),
+            hintStyle: TextStyle(color: Colors.grey[500]),
             focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.blue, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.grey),
             ),
             errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.red),
             ),
             focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.red, width: 2),
             ),
             prefixIconColor: Colors.grey[700],
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red,
+            ),
           ),
         ),
         home: _SplashWrapper(),
